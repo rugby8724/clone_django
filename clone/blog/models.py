@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 
+
 # Create your models here.
 
 
@@ -19,6 +20,10 @@ class Post(models.Model):
     def approve_comments(self):
         return self.comments.filter(approved_comment=True)
 
+    # after creating a post go to post detail page with recently created post primary key
+    def get_absolute_url(self):
+        return reverse('post_detail', kwargs={'pk': self.pk})
+
     def __str__(self):
         return self.title
 
@@ -34,10 +39,9 @@ class Comment(models.Model):
         self.approved_comment = True
         self.save()
 
+    # after comment is approved approved returns back to list of post
+    def get_absolute_url(self):
+        return reverse('post_list')
+
     def __str__(self):
         return self.text
-
-
-
-
-
